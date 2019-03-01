@@ -37,7 +37,15 @@
         <video-game on-confirm-modal="_endGame" hidden="[[hideGame]]"></video-game>
       </template>
     </dom-if>
-
+    <audio id="song">
+      <source type="audio/mp3" src="../sounds/song.mp3">
+    </audio>
+    <audio id="gameover">
+      <source type="audio/mp3" src="../sounds/gameover.mp3">
+    </audio>
+    <audio id="song1">
+      <source type="audio/mp3" src="../sounds/song2.mp3">
+    </audio>
   </template>
 
   <script>
@@ -59,16 +67,23 @@
           },
         };
       }
+
       _initGame(event) {
+        this.$.song.play();
+        this.$.song.loop = true;
         this.showMenu = !event.detail;
         this.showGame = event.detail;
+        this.start = event.detail;
       }
       _endGame(event) {
-        console.log(event.detail);
+        this.$.gameover.play();
+        this.$.song.pause();
+        this.$.song.currentTime = 0;
+        this.$.song.loop = false;
         setTimeout(() => {
           this.showGame = false;
           this.showMenu = true;
-        }, 200);
+        }, 100);
       }
     }
 
