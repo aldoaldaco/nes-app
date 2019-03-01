@@ -1,11 +1,10 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/my-app.html",
+  "shell": "src/nes-app.html",
   "fragments": [
-    "src/my-view1.html",
-    "src/my-view2.html",
-    "src/my-view3.html",
-    "src/my-view404.html"
+    "src/video-game.html",
+    "src/game-menu.html",
+    "src/nes-app.html"
   ],
   "sources": [
     "images/**/*",
