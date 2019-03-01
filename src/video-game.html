@@ -1,0 +1,82 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/button-coin/button-coin.html">
+<link rel="import" href="../bower_components/score-board/score-board.html">
+<link rel="import" href="../bower_components/mario-bros/mario-bros.html">
+<link rel="import" href="../bower_components/sesion-modal/sesion-modal.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="video-game">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+      header {
+        height: 190px;
+        background-color: #64AAFF;
+        z-index: -1;
+      }
+      section {
+        padding-top: 70px;
+        background: url("../images/fondo.jpg");
+        background-color: #64AAFF;
+        background-position: bottom;
+        background-repeat-y: no-repeat;
+        overflow-x: hidden;
+      }
+      sesion-modal {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      score-board {
+        position: relative;
+      }
+      footer {
+        height: 99px;
+        background-color: #B75102;
+      }
+    </style>
+    <header></header>
+    <section on-mario-jump="_initAnimation">
+      <sesion-modal></sesion-modal>
+      <score-board score="[[score]]"></score-board>
+      <button-coin id="coin" score="{{score}}"></button-coin>
+      <mario-bros></mario-bros>
+    </section>
+    <footer></footer>
+  </template>
+
+  <script>
+    class VideoGame extends Polymer.Element {
+      static get is() { return 'video-game'; }
+      static get properties() {
+        return {
+          score: {
+            type: Number,
+            value: 0,
+            notify: true,
+          },
+        };
+      }
+      _initAnimation() {
+        this.$.coin._sendMoney();
+      }
+    }
+
+    window.customElements.define(VideoGame.is, VideoGame);
+  </script>
+</dom-module>
