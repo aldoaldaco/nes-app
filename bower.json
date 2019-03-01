@@ -18,7 +18,8 @@
     "score-board": "git@github.com:aldoaldaco/score-board.git",
     "button-coin": "git@github.com:aldoaldaco/button-coin.git",
     "mario-bros": "git@github.com:aldoaldaco/mario-bros.git",
-    "sesion-modal": "git@github.com:aldoaldaco/sesion-modal.git"
+    "sesion-modal": "git@github.com:aldoaldaco/sesion-modal.git",
+    "game-over": "git@github.com:aldoaldaco/game-over.git"
   },
   "resolutions": {
     "polymer": "^2.0.0"

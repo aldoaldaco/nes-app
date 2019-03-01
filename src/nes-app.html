@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/game-over/game-over.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="video-game.html">
 <link rel="import" href="game-menu.html">
@@ -34,7 +35,12 @@
     </dom-if>
     <dom-if if="[[showGame]]">
       <template>
-        <video-game on-confirm-modal="_endGame" hidden="[[hideGame]]"></video-game>
+        <video-game on-confirm-modal="_endGame"></video-game>
+      </template>
+    </dom-if>
+    <dom-if if="[[showGameOver]]">
+      <template>
+        <game-over></game-over>
       </template>
     </dom-if>
     <audio id="song">
@@ -44,7 +50,7 @@
       <source type="audio/mp3" src="../sounds/gameover.mp3">
     </audio>
     <audio id="song1">
-      <source type="audio/mp3" src="../sounds/song2.mp3">
+      <source type="audio/mp3" src="../sounds/song1.mp3">
     </audio>
   </template>
 
@@ -59,15 +65,52 @@
         return {
           showMenu: {
             type: Boolean,
-            value: true,
+            value: null,
+            observer: '_playIntro',
           },
           showGame: {
+            type: Boolean,
+            value: false,
+          },
+          showGameOver: {
             type: Boolean,
             value: false,
           },
         };
       }
 
+      connectedCallback() {
+        super.connectedCallback();
+        this.showMenu = null;
+        this.showMenu = true;
+      }
+
+      _playIntro(val) {
+        if ( val ) {
+          this.$.song1.play();
+          this.$.song1.loop = true;
+        } else {
+          this.$.song1.pause();
+          this.$.song1.currentTime = 0;
+        }
+      }
+      __playStopSounds() {
+        this.$.gameover.play();
+        this.$.song.pause();
+        this.$.song.currentTime = 0;
+        this.$.song.loop = false;
+      }
+      __showHideViews() {
+        this.showGameOver = true;
+        this.showMenu = false;
+        setTimeout(() => {
+          this.showGame = false;
+        }, 100);
+        setTimeout(() => {
+          this.showGameOver = false;
+          this.showMenu = true;
+        }, 3500);
+      }
       _initGame(event) {
         this.$.song.play();
         this.$.song.loop = true;
@@ -75,15 +118,9 @@
         this.showGame = event.detail;
         this.start = event.detail;
       }
-      _endGame(event) {
-        this.$.gameover.play();
-        this.$.song.pause();
-        this.$.song.currentTime = 0;
-        this.$.song.loop = false;
-        setTimeout(() => {
-          this.showGame = false;
-          this.showMenu = true;
-        }, 100);
+      _endGame() {
+        this.__playStopSounds();
+        this.__showHideViews();
       }
     }
 
